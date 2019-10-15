@@ -1,96 +1,21 @@
-<div class="container">
-  <div class="row">
-    <div class="col-sm">
+{{#each products}}
+<div class="row">
+{{#each this }}
+   <div class="col-sm-4">
       <div class="card">
         <div class="text-center">
-          <img src="/images/pizza1.jpg" class="card-img-top" alt="...">
+          <img src={{this.imagepath}} class="card-img-top" alt="...">
         </div>
         <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">pate aux fromages<br>couche du poulet<br>sauce authentique</p>
+          <h5 class="card-title">{{this.productName}}</h5>
+          <p class="card-text">{{this.information.pate}}<br>{{this.information.garniture}}<br>{{this.information.sauce}}</p>
           <div>
-              <p class="price float-left">4 $</p>
-              <a href="#" class="btn btn-success float-right">commander</a>
+              <p class="price float-left">{{this.price}}$</p>
+              <a href="#" class="btn btn-danger float-right">commander</a>
           </div>
         </div>
       </div>
     </div>
-    <div class="col-sm">
-      <div class="card">
-        <div class="text-center">
-          <img src="/images/pizza1.jpg" class="card-img-top" alt="...">
-        </div>
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">pate aux fromages<br>couche du poulet<br>sauce authentique</p>
-          <div>
-              <p class="price float-left">4 $</p>
-              <a href="#" class="btn btn-success float-right">commander</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm">
-      <div class="card" style="width: 18rem;">
-        <div class="text-center">
-          <img src="/images/pizza1.jpg" class="card-img-top" alt="...">
-        </div>
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">pate aux fromages<br>couche du poulet<br>sauce authentique</p>
-          <div>
-              <p class="price float-left">4 $</p>
-              <a href="#" class="btn btn-success float-right">commander</a>
-          </div>
-        </div>
-      </div>
-    </div>
+{{/each}}
   </div>
-  <div class="row">
-    <div class="col-sm">
-      <div class="card">
-        <div class="text-center">
-          <img src="/images/pizza1.jpg" class="card-img-top" alt="...">
-        </div>
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">pate aux fromages<br>couche du poulet<br>sauce authentique</p>
-          <div>
-              <p class="price float-left">4 $</p>
-              <a href="#" class="btn btn-success float-right">commander</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm">
-      <div class="card">
-        <div class="text-center">
-          <img src="/images/pizza1.jpg" class="card-img-top" alt="...">
-        </div>
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">pate aux fromages<br>couche du poulet<br>sauce authentique</p>
-          <div>
-              <p class="price float-left">4 $</p>
-              <a href="#" class="btn btn-success float-right">commander</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm">
-      <div class="card" style="width: 18rem;">
-        <div class="text-center">
-          <img src="/images/pizza1.jpg" class="card-img-top" alt="...">
-        </div>
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">pate aux fromages<br>couche du poulet<br>sauce authentique</p>
-          <div>
-              <p class="price float-left">4 $</p>
-              <a href="#" class="btn btn-success float-right">commander</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+{{/each}}
