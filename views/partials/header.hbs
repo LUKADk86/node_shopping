@@ -23,11 +23,19 @@
               Utilisateur
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Something else here</a>
-            </div>
+              {{#if checkuser}} 
+              {{#if checkprofile}}
+                <a class="dropdown-item" href="/users/logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
+              {{else}}  
+                  <a class="dropdown-item" href="/users/logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>       
+                  <a class="dropdown-item" href="/users/profile"><i class="far fa-id-card"></i> Votre compte</a> 
+              {{/if}}                  
+              {{else}}
+                  <a class="dropdown-item" href="/users/signin"><i class="fas fa-sign-in-alt"></i> Connexion</a>
+                  <a class="dropdown-item" href="/users/signup"><i class="fas fa-user-plus"></i> Nouveau client?</a>
+              {{/if}}
+            
+             
           </li>
           
         </ul>
