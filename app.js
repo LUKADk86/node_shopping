@@ -5,12 +5,24 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const mongoose = require('mongoose');
 const expressHbs = require('express-handlebars') ;
+const session = require('express-session');
+const flash = require('connect-flash');
+const passport = require('passport')
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
 
+mongoose.connect('mongodb://localhost/pizzaShopping',{useNewUrlParser:true, useUnifiedTopology: true},(error)=>{
+  if(error){
+    console.log(error)
+  }
+  console.log('connexion réussie à la db pizzeria')
+});
+
+//importer le ficher passport pour qu'il fonctionne avec local strategy (signin) sur tous les fichiers
+require('./config/passport');
 // view engine setup
 app.engine('.hbs', expressHbs({defaultLayout:'layout', extname: '.hbs'}))
 
@@ -21,15 +33,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use(cookieParser());
+
+app.use(session({
+  secret:'pizzeria-shopping', 
+  saveUninitialized: false, 
+  resave: false}));
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-mongoose.connect('mongodb://localhost/pizzaShopping',{useNewUrlParser:true, useUnifiedTopology: true},(error)=>{
-  if(error){
-    console.log(error)
-  }
-  console.log('connexion réussie à la db pizzeria')
-});
+
 
 
 app.use('/', indexRouter);
