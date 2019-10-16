@@ -15,6 +15,7 @@
         <label for="password">Mot de passe</label>
         <input type="password" name="password" placeholder="entrer votre mot de passe" class="form-control">
     </div>
+    <input type="hidden" name= '_csrf'  value={{token}}>
     <button type="submit" class="btn btn-danger">Se connecter</button>
     </form>
 </div>

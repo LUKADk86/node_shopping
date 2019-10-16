@@ -4,10 +4,14 @@ const { check, validationResult } = require('express-validator');
 const User = require('../models/User');
 const passport = require('passport');
 
+const csrf = require('csurf') ;
+
+router.use(csrf()) ;
+
 /* GET users listing. */
 router.get('/signup',isNotSignin, function (req, res, next) {
   var messageError = req.flash('signupError');
-  res.render('user/signup', { message: messageError });
+  res.render('user/signup', { message: messageError, token: req.csrfToken() });
 });
 router.post('/signup', [
   check('email').not().isEmpty().withMessage('veuillez entrer un email'),
@@ -45,8 +49,9 @@ function (req, res, next) {
 }))
 router.get('/signin',isNotSignin, (req, res, next)=>{
   //passer les erreurs d'authentification difinies dans passport local-signin
-  errormsg=req.flash('signinError')
-  res.render('user/signin', {message: errormsg}) 
+  errormsg=req.flash('signinError');
+  
+  res.render('user/signin', {message: errormsg,token: req.csrfToken()}) 
 });
 router.get('/profile',isSignin, (req, res, next)=>{
   //checkuser en true pour changer l'affiche de menu header

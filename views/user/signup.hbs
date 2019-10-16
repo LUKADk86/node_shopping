@@ -19,6 +19,7 @@
         <label for="confirm-password">Confirmer le mot de passe</label>
         <input type="password" name="confirm-password" placeholder="confirmer le mdp" class="form-control">
     </div>
+    <input type="hidden" name= '_csrf'  value={{token}}>
     <button type="submit" class="btn btn-danger">s'inscrire</button>
     </form>
 </div>
