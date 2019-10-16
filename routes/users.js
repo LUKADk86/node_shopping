@@ -6,7 +6,7 @@ const passport = require('passport');
 
 /* GET users listing. */
 router.get('/signup', function (req, res, next) {
-  var messageError = req.flash('error');
+  var messageError = req.flash('signupError');
   res.render('user/signup', { message: messageError });
 });
 router.post('/signup', [
@@ -30,31 +30,19 @@ function (req, res, next) {
     for (var i = 0; i < errors.errors.length; i++) {
       errorsTab.push(errors.errors[i].msg);
     }
-    req.flash('error', errorsTab);
+    req.flash('signupError', errorsTab);
     res.redirect('signup')
     return;
   }
-  const user = new User({
-    email: req.body.email,
-    password: new User().hashPassword(req.body.password)
-  });
-  User.findOne({ email: req.body.email }, (error, result) => {
-    if (error) {
-      console.log(error)
-    }
-    if (result) {
-      req.flash('error', 'email déjà utilisé')
-      res.redirect('signup')
-      return;
-    }
-    user.save((error, result) => {
-      if (error) {
-        console.log(error)
-      }
-      res.send(result);
-    })
-  })
-});
+ next();
+ 
+}, passport.authenticate('local-signup',{
+  //2eme parametre objet en cas de succes et le message et le redi en cas d echec selon le fichier passport
+  session: false,
+  successRedirect : 'signin',
+  failureRedirect: 'signup',
+  failureFlash : true,
+}))
 router.get('/signin', (req, res, next)=>{
   //passer les erreurs d'authentification difinies dans passport local-signin
   errormsg=req.flash('signinError')
@@ -76,6 +64,7 @@ router.post('/signin', [
   //function erreur et res comme la page signup
 
   const errors = validationResult(req);
+  //il rentre dans la condition seulement en cas d'erreur(non vide), et il affiche l erreur sinon il fera next
   if (!errors.isEmpty()) {
 
     var errorsTab = [];
@@ -87,6 +76,8 @@ router.post('/signin', [
     return;
   
     }
+    //le next permet de passer a la 2eme fucntion callbacl passport.authenticate sinon le processus s'arrête
+    next();
     }
 
 

@@ -12,7 +12,6 @@ router.get('/', function(req, res, next) {
       }
       var productGrid=[];
       var columnGrid=3;
-      console.log(result.length)
       for(var i=0; i<result.length; i+=columnGrid){
 
         productGrid.push(result.slice(i, i+columnGrid));

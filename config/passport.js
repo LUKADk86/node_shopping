@@ -12,10 +12,13 @@ passport.deserializeUser((id, done)=>{
     })
    
 })
-
+//definir strategy de passport pour signin authentification
 passport.use('local-signin', new localStrategy({
+    //le premier est mail
     usernameField: 'email', 
+    //deuxieme password
     passwordField: 'password',
+    //ce 3eme dire qu'une fonction callback existe apres
     passReqToCallback: true
 }, (req, email, password, done)=>{
     //requete recuperer l user avec son mail
@@ -39,5 +42,28 @@ passport.use('local-signin', new localStrategy({
             //aucune erreur et user saisi exite en db
             return done(null, user)
         })
-
+}))
+passport.use('local-signup', new localStrategy({
+    usernameField: 'email', 
+    passwordField: 'password',
+    passReqToCallback: true
+}, (req, email, password, done)=>{
+    User.findOne({email: email}, (error, user)=>{
+        if(error){
+            return done(error)
+        }
+        if(user){
+            return done(null, user, req.flash('signupError', 'un compte existe déjà avec ce mail'))
+        }
+        const user1 = new User({
+            email: email,
+            password: new User.hashPassword(password)
+        })
+        user1.save((err, user)=>{
+            if(err){
+                return done(err)
+            }
+            return done(null, user)
+        })
+    })
 }))
