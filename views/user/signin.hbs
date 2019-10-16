@@ -1,6 +1,11 @@
 <div class="col-md-4 offset-md-4" style="padding-top: 40px;">
     <h1 class="text-center">Connexion</h1>
- 
+  {{#each message}}
+    <div class="alert alert-danger">
+        <p>{{this}}</p>
+    </div>
+        
+    {{/each}}
     <form action="signin" method="post">
     <div class="form-group">
         <label for="email">E-mail</label>

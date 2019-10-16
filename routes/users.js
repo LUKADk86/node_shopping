@@ -56,12 +56,44 @@ function (req, res, next) {
   })
 });
 router.get('/signin', (req, res, next)=>{
-  res.render('user/signin') 
+  //passer les erreurs d'authentification difinies dans passport local-signin
+  errormsg=req.flash('signinError')
+  res.render('user/signin', {message: errormsg}) 
 });
 router.get('/profile', (req, res, next)=>{
   res.render('user/profile') 
 });
-router.post('/signin', passport.authenticate(/*mettre le meme que celui de passportstrategy*/'local-signin', {
+router.post('/signin', [
+  //verifier avec express validator les checks
+  check('email').not().isEmpty().withMessage('veuillez entrer un email'),
+  check('email').isEmail().withMessage('email non correcte'),
+  check('password').not().isEmpty().withMessage('veuillez entrer un mot de passe'),
+  check('password').isLength({ min: 5 }).withMessage('le mdp doit contenir au moin 5 caractères')
+ 
+
+
+], (req, res, next)=>{
+  //function erreur et res comme la page signup
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+
+    var errorsTab = [];
+    for (var i = 0; i < errors.errors.length; i++) {
+      errorsTab.push(errors.errors[i].msg);
+    }
+    req.flash('signinError', errorsTab);
+    res.redirect('signin')
+    return;
+  
+    }
+    }
+
+
+
+
+
+,passport.authenticate(/*mettre le meme que celui de passportstrategy*/'local-signin', {
   //2eme parametre objet en cas de succes et le message et le redi en cas d echec selon le fichier passport
   successRedirect : 'profile',
   failureRedirect: 'signin',
